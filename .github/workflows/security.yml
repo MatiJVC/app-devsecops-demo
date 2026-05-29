@@ -45,6 +45,28 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: '/language:javascript-typescript'
+      - name: Notificar falla de seguridad
+        if: failure()
+        # if: failure() ejecuta este step SOLO si el job falló
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            {
+              "text": ":rotating_light: *FALLA DE SEGURIDAD en CI/CD*",
+              "attachments": [{
+                "color": "danger",
+                "fields": [
+                  {"title": "Repositorio", "value": "${{ github.repository }}"},
+                  {"title": "Branch", "value": "${{ github.ref_name }}"},
+                  {"title": "Commit", "value": "${{ github.sha }}"},
+                  {"title": "Actor", "value": "${{ github.actor }}"}
+                ]
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+          
   sca-npm:
     name: SCA — npm audit
     runs-on: ubuntu-latest
@@ -59,3 +81,24 @@ jobs:
       # --audit-level=high: falla solo en vulnerabilidades HIGH o CRITICAL
       # moderate: falla también en vulnerabilidades moderadas
       # Ajustar según la política de riesgo del equipo
+      - name: Notificar falla de seguridad
+        if: failure()
+        # if: failure() ejecuta este step SOLO si el job falló
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            {
+              "text": ":rotating_light: *FALLA DE SEGURIDAD en CI/CD*",
+              "attachments": [{
+                "color": "danger",
+                "fields": [
+                  {"title": "Repositorio", "value": "${{ github.repository }}"},
+                  {"title": "Branch", "value": "${{ github.ref_name }}"},
+                  {"title": "Commit", "value": "${{ github.sha }}"},
+                  {"title": "Actor", "value": "${{ github.actor }}"}
+                ]
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
