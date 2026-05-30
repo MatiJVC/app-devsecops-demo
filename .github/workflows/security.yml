@@ -16,7 +16,8 @@ permissions:
   contents: read
   security-events: write
   pull-requests: read
-  # Permisos adicionales para Gitleaks en PRs
+  actions: read
+  # Permisos para CodeQL telemetry y post-procesamiento de SARIF
 
 
 jobs:
