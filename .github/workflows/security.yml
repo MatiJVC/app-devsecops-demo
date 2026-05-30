@@ -15,7 +15,8 @@ on:
 permissions:
   contents: read
   security-events: write
-  # Principio de mínimo privilegio: solo los permisos necesarios.
+  pull-requests: read
+  # Permisos adicionales para Gitleaks en PRs
 
 
 jobs:
