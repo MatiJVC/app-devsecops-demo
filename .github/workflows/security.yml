@@ -36,6 +36,15 @@ jobs:
           queries: security-extended
           # security-extended incluye reglas de mayor severidad
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Compilar TypeScript
+        run: npm run build
 
       - name: Auto-build (inferir compilación)
         uses: github/codeql-action/autobuild@v3
