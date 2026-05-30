@@ -13,7 +13,7 @@ updates:
       - 'dependencias'
       - 'seguridad'
     reviewers:
-      - 'USUARIO_GITHUB'
+      - 'MatiJVC' 
   # ─── Dependencias de GitHub Actions ───────────────────────────
   - package-ecosystem: 'github-actions'
     directory: '/'
