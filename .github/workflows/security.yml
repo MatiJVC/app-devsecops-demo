@@ -25,7 +25,7 @@ jobs:
     name: SAST — CodeQL
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0    # Historial completo para mejor análisis
 
@@ -55,7 +55,7 @@ jobs:
     name: SCA — npm audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -71,7 +71,7 @@ jobs:
     name: Secret Scanning — Gitleaks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0          # Escanear TODO el historial
       - name: Ejecutar Gitleaks (v1 - sin licencia)
