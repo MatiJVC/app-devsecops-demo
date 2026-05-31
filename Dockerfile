@@ -8,8 +8,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production
-# --only=production: no instala devDependencies en imagen final
+RUN npm ci
+# npm ci instala TODAS las dependencias (prod + dev)
+# Necesitamos devDependencies para compilar TypeScript
 COPY . .
 RUN npm run build
 
