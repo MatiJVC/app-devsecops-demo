@@ -69,8 +69,8 @@ jobs:
         run: docker build -t app-demo:${{ github.sha }} .
 
       - name: Escanear con Trivy
-        uses: aquasecurity/trivy-action@0.24.0
-        # SHA pinning: usar versión exacta por seguridad
+        uses: aquasecurity/trivy-action@master
+        # @master: rama principal de la acción (compatible con Trivy últimas versiones)
         with:
           image-ref: 'app-demo:${{ github.sha }}'
           format: 'sarif'
