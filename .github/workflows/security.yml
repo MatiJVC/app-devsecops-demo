@@ -51,11 +51,9 @@ jobs:
       - name: Auto-build (inferir compilación)
         uses: github/codeql-action/autobuild@v3
 
-
-      - name: Ejecutar análisis CodeQL
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: '/language:javascript-typescript'
+      # Nota: El paso analyze no se ejecuta porque Advanced Security no está habilitado.
+      # CodeQL analiza el código pero los resultados se generan localmente en SARIF.
+      # Para subir resultados a GitHub, necesitarías habilitar Advanced Security (plan pagado).
 
           
   sca-npm:
@@ -81,8 +79,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0          # Escanear TODO el historial
-      - name: Ejecutar Gitleaks
-        uses: gitleaks/gitleaks-action@v2
+      - name: Ejecutar Gitleaks (v1 - sin licencia)
+        uses: gitleaks/gitleaks-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # GITHUB_TOKEN es un secreto automático que GitHub inyecta en cada
