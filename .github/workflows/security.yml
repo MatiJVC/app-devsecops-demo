@@ -55,8 +55,8 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           wait-for-processing: false
-          # wait-for-processing: false evita esperar a GitHub
-          # Esta acción FALLARÁ si CodeQL encuentra vulnerabilidades
+          fail-on: warning
+          # fail-on: warning hace que el job FALLE si encuentra cualquier issue
 
           
   sca-npm:
