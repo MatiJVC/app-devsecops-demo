@@ -66,7 +66,7 @@ jobs:
   # Umbral del 80%: si la cobertura cae bajo ese valor, el job falla.
   # Este valor es configurable según la madurez del proyecto.
       - name: Publicar reporte de cobertura
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
