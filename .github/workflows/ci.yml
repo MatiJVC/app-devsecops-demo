@@ -11,6 +11,8 @@ on:
 
 env:
   NODE_VERSION: '20'
+  API_KEY: ${{ secrets.API_KEY }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
 
 jobs:
