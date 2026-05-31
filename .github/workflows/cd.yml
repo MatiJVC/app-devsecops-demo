@@ -65,19 +65,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Construir imagen Docker
-        run: docker build -t app-demo:${{ github.sha }} .
+      - name: Construir imagen Docker (INSECURE para demostración)
+        run: docker build -f Dockerfile.insecure -t app-demo:${{ github.sha }} .
 
-      - name: Escanear con Trivy
+      - name: Escanear con Trivy (imagen INSECURE - solo reporte)
         uses: aquasecurity/trivy-action@master
         # @master: rama principal de la acción (compatible con Trivy últimas versiones)
         with:
           image-ref: 'app-demo:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
-          exit-code: '1'
-          # exit-code 1: el job falla si hay CRITICAL o HIGH
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+          exit-code: '0'
+          # exit-code 0: solo reporta, no falla (para ver todas las vulnerabilidades del insecure)
           ignore-unfixed: true
           # ignore-unfixed: ignora CVEs sin parche disponible
 
