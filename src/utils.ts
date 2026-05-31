@@ -13,7 +13,9 @@ export function saludar(nombre: string): string {
 export function renderUserGreeting(userInput: string): void {
   const element = document.getElementById('greeting');
   if (element) {
-    element.innerHTML = userInput;  //  XSS VULNERABILITY: entrada no sanitizada
+    //XSS VULNERABILITY: Concatenar entrada de usuario directamente a innerHTML
+    const html = '<h1>Hola ' + userInput + '</h1>';
+    element.innerHTML = html;
   }
 }
 
