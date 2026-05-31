@@ -56,9 +56,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          provenance: true
-          # provenance: true genera SBOM (Software Bill of Materials)
-          # para trazabilidad del contenido de la imagen
 
 
   trivy-scan:
