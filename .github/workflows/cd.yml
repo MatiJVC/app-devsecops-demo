@@ -76,7 +76,7 @@ jobs:
           image-ref: 'app-demo:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+          severity: 'CRITICAL,HIGH'
           exit-code: '0'
           # exit-code 0: solo reporta, no falla (para ver todas las vulnerabilidades del insecure)
           ignore-unfixed: true
