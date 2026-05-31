@@ -54,9 +54,8 @@ jobs:
       - name: Ejecutar análisis CodeQL
         uses: github/codeql-action/analyze@v3
         with:
-          wait-for-processing: false
-          fail-on: warning
-          # fail-on: warning hace que el job FALLE si encuentra cualquier issue
+          fail-on: error
+          # fail-on: error hace que el job FALLE si encuentra vulnerabilidades críticas
 
           
   sca-npm:
