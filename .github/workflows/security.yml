@@ -38,22 +38,16 @@ jobs:
           queries: security-extended
           # security-extended incluye reglas de mayor severidad
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - run: npm ci
-
-      - name: Compilar TypeScript
-        run: npm run build
 
       - name: Auto-build (inferir compilación)
         uses: github/codeql-action/autobuild@v3
 
-      # Nota: El paso analyze no se ejecuta porque Advanced Security no está habilitado.
-      # CodeQL analiza el código pero los resultados se generan localmente en SARIF.
-      # Para subir resultados a GitHub, necesitarías habilitar Advanced Security (plan pagado).
+
+      - name: Ejecutar análisis CodeQL
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: '/language:javascript-typescript'
+
 
           
   sca-npm:
