@@ -81,10 +81,17 @@ jobs:
           ignore-unfixed: true
           # ignore-unfixed: ignora CVEs sin parche disponible
 
+      - name: Verificar que SARIF existe
+        run: |
+          ls -la trivy-results.sarif
+          echo "SARIF file size:"
+          wc -c trivy-results.sarif
+
       - name: Publicar resultados en Security tab
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
+          category: 'trivy'
 
 
   deploy-staging:
