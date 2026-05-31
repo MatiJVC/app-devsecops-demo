@@ -13,12 +13,11 @@ export function saludar(nombre: string): string {
 // VULNERABILIDAD INTENCIONAL: Command Injection
 // Esta función ejecuta comandos del sistema con entrada del usuario
 // Un atacante puede pasar: "; rm -rf /" o similar
-import { execSync } from 'child_process';
+import { readFileSync } from 'fs';
 
 export function processFile(filename: string): string {
-  const result = execSync('cat ' + filename);  // Entrada concatenada sin escapar
-  return result.toString();
+  const result = readFileSync(filename, 'utf-8');  // ✅ SECURE
+  return result;
 }
-
 
 
