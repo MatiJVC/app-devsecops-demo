@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # ─── Dependencias del proyecto (npm) ──────────────────────────
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '08:00'
+      timezone: 'America/Santiago'
+    open-pull-requests-limit: 5
+    labels:
+      - 'dependencias'
+      - 'seguridad'
+    reviewers:
+      - 'MatiJVC' 
+  # ─── Dependencias de GitHub Actions ───────────────────────────
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+  # Mantener actualizadas las actions también es crítico:
+  # actions comprometidas pueden inyectar código malicioso en el pipeline.

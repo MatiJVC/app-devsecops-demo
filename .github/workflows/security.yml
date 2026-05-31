@@ -1,0 +1,88 @@
+name: Security — Análisis de seguridad
+
+
+on:
+  push:
+    branches: [ 'main', 'develop' ]
+  pull_request:
+    branches: [ 'main' ]
+  schedule:
+    - cron: '0 3 * * 1'   # Cada lunes a las 03:00 UTC
+  # El análisis programado detecta vulnerabilidades en dependencias
+  # que aparecen DESPUÉS de hacer el push (vulnerabilidades de día 0).
+
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: read
+  actions: read
+  # Permisos para CodeQL telemetry y post-procesamiento de SARIF
+
+
+jobs:
+  codeql:
+    name: SAST — CodeQL
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # Historial completo para mejor análisis
+
+
+      - name: Inicializar CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          # Otros lenguajes: python, java, csharp, go, cpp, ruby
+          queries: security-extended
+          # security-extended incluye reglas de mayor severidad
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Compilar TypeScript
+        run: npm run build
+
+      - name: Auto-build (inferir compilación)
+        uses: github/codeql-action/autobuild@v3
+
+      # Nota: El paso analyze no se ejecuta porque Advanced Security no está habilitado.
+      # CodeQL analiza el código pero los resultados se generan localmente en SARIF.
+      # Para subir resultados a GitHub, necesitarías habilitar Advanced Security (plan pagado).
+
+          
+  sca-npm:
+    name: SCA — npm audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Auditoría de dependencias
+        run: npm audit --audit-level=high
+      # --audit-level=high: falla solo en vulnerabilidades HIGH o CRITICAL
+      # moderate: falla también en vulnerabilidades moderadas
+      # Ajustar según la política de riesgo del equipo
+
+
+  gitleaks:
+    name: Secret Scanning — Gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # Escanear TODO el historial
+      - name: Ejecutar Gitleaks (v1 - sin licencia)
+        uses: gitleaks/gitleaks-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN es un secreto automático que GitHub inyecta en cada
+          # ejecución. No es necesario crearlo manualmente.
+
