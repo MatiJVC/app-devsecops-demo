@@ -51,9 +51,12 @@ jobs:
       - name: Auto-build (inferir compilación)
         uses: github/codeql-action/autobuild@v3
 
-      # Nota: El paso analyze no se ejecuta porque Advanced Security no está habilitado.
-      # CodeQL analiza el código pero los resultados se generan localmente en SARIF.
-      # Para subir resultados a GitHub, necesitarías habilitar Advanced Security (plan pagado).
+      - name: Ejecutar análisis CodeQL
+        uses: github/codeql-action/analyze@v3
+        with:
+          skip-upload: true
+          # skip-upload: true evita intentar subir a GitHub (requiere Advanced Security)
+          # Pero CodeQL sigue analizando y generando SARIF localmente
 
           
   sca-npm:
