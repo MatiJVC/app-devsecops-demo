@@ -82,9 +82,14 @@ jobs:
       - name: Mostrar resumen de vulnerabilidades
         run: |
           echo "===== RESUMEN TRIVY ====="
-          cat trivy-results.json | jq '.' > /dev/null 2>&1 && echo "JSON válido" || echo "Error en JSON"
-          TOTAL=$(cat trivy-results.json | jq -r '[.Results[]?.Vulnerabilities[] // empty] | length')
-          echo "Total de vulnerabilidades encontradas: $TOTAL"
+          VULN_COUNT=$(grep -o '"ruleId"' trivy-results.sarif | wc -l)
+          echo "Total de vulnerabilidades CRITICAL/HIGH encontradas: $VULN_COUNT"
+          if [ "$VULN_COUNT" -gt 0 ]; then
+            echo "✓ Dockerfile seguro detectó vulnerabilidades (puede ser esperado en librerías del SO)"
+            echo "Ver detalle en: GitHub → Security → Code scanning"
+          else
+            echo "✓ Dockerfile seguro sin vulnerabilidades CRITICAL/HIGH"
+          fi
 
       - name: Escanear con Trivy (imagen SECURE - formato SARIF)
         uses: aquasecurity/trivy-action@master
@@ -99,7 +104,9 @@ jobs:
       - name: Mostrar vulnerabilidades en formato tabla
         run: |
           echo "===== VULNERABILIDADES ENCONTRADAS ====="
-          cat trivy-results.sarif | jq -r '.runs[0].results[]? | "\(.ruleId) - \(.message.text)" | "\(.ruleId) | \(.level) | \(.message.text)"' 2>/dev/null || echo "No se pudo parsear SARIF o no hay vulnerabilidades"
+          if [ -f trivy-results.sarif ]; then
+            grep -o '"ruleId":"[^"]*"' trivy-results.sarif | head -20 || echo "Sin vulnerabilidades CRITICAL/HIGH"
+          fi
 
       - name: Verificar que SARIF existe
         run: |
