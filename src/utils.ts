@@ -16,7 +16,7 @@ export function saludar(nombre: string): string {
 import { readFileSync } from 'fs';
 
 export function processFile(filename: string): string {
-  const result = readFileSync(filename, 'utf-8');  // ✅ SECURE
+  const result = readFileSync(filename, 'utf-8');  
   return result;
 }
 
