@@ -17,7 +17,8 @@ env:
 permissions:
   contents: read
   packages: write
-  # packages: write permite publicar en GitHub Container Registry (GHCR)
+  security-events: write
+  # security-events: write permite subir resultados SARIF de Trivy a Code Scanning
 
 
 jobs:
