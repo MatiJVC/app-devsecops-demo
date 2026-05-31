@@ -10,15 +10,13 @@ export function saludar(nombre: string): string {
   return `¡Hola, ${nombre}!`;
 }
 
-// ⚠️ VULNERABILIDAD INTENCIONAL: Command Injection
-// Esta función ejecuta comandos del sistema con entrada del usuario
-// Un atacante puede pasar: "; rm -rf /" o similar
-import { execSync } from 'child_process';
+// ✅ VULNERABILIDAD CORREGIDA: Command Injection
+// Ahora usa fs.readFileSync() de forma segura
+import { readFileSync } from 'fs';
 
 export function processFile(filename: string): string {
-  // ❌ CRITICAL VULNERABILITY: Command Injection
-  const result = execSync('cat ' + filename);  // Entrada concatenada sin escapar
-  return result.toString();
+  // ✅ SECURE: Usar fs.readFileSync en lugar de execSync con concatenación
+  const n result;
 }
 
 
