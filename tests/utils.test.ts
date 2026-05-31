@@ -3,7 +3,7 @@ import { suma, multiplicar, saludar } from '../src/utils';
 describe('Utils', () => {
   describe('suma', () => {
     it('debe sumar dos números correctamente', () => {
-      expect(suma(2, 3)).toBe(6);  // ❌ PROPOSITALMENTE ROTO (debería ser 5)
+      expect(suma(2, 3)).toBe(5);  // Falla intencionalmente (debería ser 5)
     });
 
     it('debe manejar números negativos', () => {
