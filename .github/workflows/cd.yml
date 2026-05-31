@@ -87,6 +87,11 @@ jobs:
           ls -la trivy-results.sarif
           echo "SARIF file size:"
           wc -c trivy-results.sarif
+          echo "===== CONTENIDO DEL SARIF ====="
+          head -c 2000 trivy-results.sarif
+          echo ""
+          echo "===== CANTIDAD DE VULNERABILIDADES ====="
+          grep -o '"ruleId"' trivy-results.sarif | wc -l
 
       - name: Publicar resultados en Security tab
         uses: github/codeql-action/upload-sarif@v4
