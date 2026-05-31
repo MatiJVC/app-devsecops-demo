@@ -54,9 +54,9 @@ jobs:
       - name: Ejecutar análisis CodeQL
         uses: github/codeql-action/analyze@v3
         with:
-          skip-upload: true
-          # skip-upload: true evita intentar subir a GitHub (requiere Advanced Security)
-          # Pero CodeQL sigue analizando y generando SARIF localmente
+          wait-for-processing: false
+          # wait-for-processing: false evita esperar a GitHub (evita conflictos)
+          # Pero CodeQL sigue analizando y reportando vulnerabilidades
 
           
   sca-npm:
