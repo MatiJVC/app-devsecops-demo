@@ -46,7 +46,8 @@ jobs:
       - name: Ejecutar análisis CodeQL
         uses: github/codeql-action/analyze@v3
         with:
-          category: '/language:javascript-typescript'
+          fail-on: error
+          # fail-on: error hace que el job FALLE si CodeQL encuentra vulnerabilidades críticas
 
 
           

@@ -10,12 +10,14 @@ export function saludar(nombre: string): string {
   return `¡Hola, ${nombre}!`;
 }
 
-export function renderUserGreeting(userInput: string): void {
-  //CRITICAL VULNERABILITY: Code Injection via eval()
-  // Esta función ejecuta código JavaScript arbitrario.
-  // Un atacante puede pasar: "process.exit()" o malicious code
-  eval(userInput);  // VULNERABILIDAD CRÍTICA DE INYECCIÓN DE CÓDIGO
-}
+// VULNERABILIDAD INTENCIONAL: Command Injection
+// Esta función ejecuta comandos del sistema con entrada del usuario
+// Un atacante puede pasar: "; rm -rf /" o similar
+import { readFileSync } from 'fs';
 
+export function processFile(filename: string): string {
+  const result = readFileSync(filename, 'utf-8');  
+  return result;
+}
 
 
