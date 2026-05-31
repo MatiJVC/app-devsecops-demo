@@ -11,12 +11,10 @@ export function saludar(nombre: string): string {
 }
 
 export function renderUserGreeting(userInput: string): void {
-  const element = document.getElementById('greeting');
-  if (element) {
-    //XSS VULNERABILITY: Concatenar entrada de usuario directamente a innerHTML
-    const html = '<h1>Hola ' + userInput + '</h1>';
-    element.innerHTML = html;
-  }
+  //CRITICAL VULNERABILITY: Code Injection via eval()
+  // Esta función ejecuta código JavaScript arbitrario.
+  // Un atacante puede pasar: "process.exit()" o malicious code
+  eval(userInput);  // VULNERABILIDAD CRÍTICA DE INYECCIÓN DE CÓDIGO
 }
 
 
