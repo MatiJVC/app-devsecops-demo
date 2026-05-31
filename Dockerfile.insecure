@@ -1,0 +1,20 @@
+
+# Usa imagen completa (no alpine) - más vulnerabilidades
+FROM node:20
+
+# Sin crear usuario, ejecuta como root (riesgo crítico)
+WORKDIR /app
+
+# Copia TODO (incluye node_modules, dist, etc) - sin etapas
+COPY . .
+
+# Instala dependencias normales (incluye dev)
+RUN npm install
+
+# Expone puerto pero sin validación
+EXPOSE 3000
+
+# Sin HEALTHCHECK
+
+# Ejecuta como root (vulnerabilidad crítica)
+CMD ["node", "dist/index.js"]
